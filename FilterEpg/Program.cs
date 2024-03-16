@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.IO;
+using System.Xml;
 
 namespace FilterEpg;
 
@@ -6,9 +7,25 @@ class Program
 {
     static void Main(string[] args)
     {
-        using (StreamWriter writer = new StreamWriter("/Users/pargradin/Projects/FilterEpg/FilterEpg/TestData/guidese.xml"))
+        if (args.Length != 1)
         {
-            using (StreamReader reader = new StreamReader("/Users/pargradin/Projects/FilterEpg/FilterEpg/TestData/guide.xml"))
+            Console.Out.WriteLine("requires a guide file as single parameter");
+            return;
+        }
+
+        var guideFile = args[0];
+        if (!File.Exists(guideFile))
+        {
+            Console.Out.WriteLine($"The file {guideFile} does not exist");
+            return;
+        }
+
+        var tmpFile = guideFile + ".tmp";
+
+        Console.Out.WriteLine($"Processing");
+        using (StreamWriter writer = new StreamWriter(tmpFile))
+        {
+            using (StreamReader reader = new StreamReader(guideFile))
             {
                 writer.WriteLine(reader.ReadLine());
 
@@ -28,6 +45,8 @@ class Program
             writer.WriteLine("</tv>");
             writer.Close();
         }
+        Console.Out.WriteLine($"Done");
+
     }
 }
 
