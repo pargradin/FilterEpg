@@ -45,7 +45,15 @@ class Program
             writer.WriteLine("</tv>");
             writer.Close();
         }
+        Console.Out.WriteLine($"Replacing old guide file");
+
+        File.Delete(guideFile);
+        File.Copy(tmpFile, guideFile);
+        File.Delete(tmpFile);
+
         Console.Out.WriteLine($"Done");
+
+
 
     }
 }
