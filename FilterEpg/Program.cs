@@ -7,6 +7,8 @@ class Program
 {
     static void Main(string[] args)
     {
+        Console.Out.WriteLine($"Started: {DateTime.Now}");
+
         if (args.Length != 1)
         {
             Console.Out.WriteLine("requires a guide file as single parameter");
@@ -22,7 +24,7 @@ class Program
 
         var tmpFile = guideFile + ".tmp";
 
-        Console.Out.WriteLine($"Processing");
+        Console.Out.WriteLine($"  Processing");
         using (StreamWriter writer = new StreamWriter(tmpFile))
         {
             using (StreamReader reader = new StreamReader(guideFile))
@@ -45,13 +47,13 @@ class Program
             writer.WriteLine("</tv>");
             writer.Close();
         }
-        Console.Out.WriteLine($"Replacing old guide file");
+        Console.Out.WriteLine($"  Replacing old guide file");
 
         File.Delete(guideFile);
         File.Copy(tmpFile, guideFile);
         File.Delete(tmpFile);
 
-        Console.Out.WriteLine($"Done");
+        Console.Out.WriteLine($"Completed: {DateTime.Now}");
 
 
 
